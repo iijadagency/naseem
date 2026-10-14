@@ -3,7 +3,7 @@
 |--------------------|---------|----------------------------------|
 | component.title    | ?string | عنوان القسم                      |
 | component.brands   | Brand[] | الماركات المختارة                |
-| component.duration | ?int    | مدة اللفة الكاملة بالثواني        |
+| component.slow     | ?bool   | حركة أبطأ                        |
 #}
 {% set t = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
 {% set brands = component.brands %}
@@ -20,7 +20,7 @@
       </div>
     </div>
   {% endif %}
-  <div class="n-marquee n-marquee--reverse" style="--n-speed: {{ component.duration ?: 35 }}s">
+  <div class="n-marquee n-marquee--reverse" style="--n-speed: {{ component.slow ? 55 : 35 }}s">
     <div class="n-marquee__track">
       {% for i in 1..reps %}
         {% for brand in brands %}

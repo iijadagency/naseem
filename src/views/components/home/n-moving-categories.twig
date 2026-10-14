@@ -3,7 +3,7 @@
 |-----------------------|------------|--------------------------------------|
 | component.title       | ?string    | عنوان القسم                          |
 | component.categories  | Category[] | التصنيفات المختارة                   |
-| component.duration    | ?int       | مدة اللفة الكاملة بالثواني            |
+| component.slow        | ?bool      | حركة أبطأ                            |
 | component.square      | ?bool      | صور مربعة بدل الدائرية               |
 #}
 {% set t = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
@@ -18,7 +18,7 @@
       </div>
     </div>
   {% endif %}
-  <div class="n-marquee" style="--n-speed: {{ component.duration ?: 45 }}s">
+  <div class="n-marquee" style="--n-speed: {{ component.slow ? 70 : 45 }}s">
     <div class="n-marquee__track">
       {% for i in 1..reps %}
         {% for cat in cats %}
