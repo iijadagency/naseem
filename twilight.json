@@ -710,26 +710,22 @@
           "required": true
         },
         {
-          "id": "duration",
-          "type": "number",
-          "format": "integer",
-          "label": "مدة اللفة الكاملة بالثواني",
-          "description": "رقم أكبر = حركة أبطأ",
-          "key": "7e9201cb-1cde-462e-bf27-bac502719960",
-          "labelHTML": null,
-          "placeholder": "القيمة",
-          "icon": "sicon-pencil-ruler",
-          "value": 45,
-          "required": false,
-          "minimum": 15,
-          "maximum": 120
-        },
-        {
           "type": "boolean",
           "icon": "sicon-toggle-off",
           "label": "صور مربعة بدل الدائرية",
           "description": null,
           "id": "square",
+          "format": "switch",
+          "required": false,
+          "value": false,
+          "selected": false
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "label": "حركة أبطأ",
+          "description": null,
+          "id": "slow",
           "format": "switch",
           "required": false,
           "value": false,
@@ -775,19 +771,15 @@
           "source": "brands"
         },
         {
-          "id": "duration",
-          "type": "number",
-          "format": "integer",
-          "label": "مدة اللفة الكاملة بالثواني",
-          "description": "رقم أكبر = حركة أبطأ",
-          "key": "a086989c-e247-427c-b2be-94e800a8fd69",
-          "labelHTML": null,
-          "placeholder": "القيمة",
-          "icon": "sicon-pencil-ruler",
-          "value": 35,
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "label": "حركة أبطأ",
+          "description": null,
+          "id": "slow",
+          "format": "switch",
           "required": false,
-          "minimum": 15,
-          "maximum": 120
+          "value": false,
+          "selected": false
         }
       ]
     },
@@ -797,7 +789,7 @@
         "ar": "فيديوهات قصيرة (نسيم)",
         "en": "Short videos (Naseem)"
       },
-      "icon": "sicon-video",
+      "icon": "sicon-list-play",
       "path": "home.n-reels",
       "fields": [
         {
@@ -838,7 +830,12 @@
           "labelHTML": null,
           "item_label": "فيديو",
           "icon": "sicon-list-add",
-          "value": [],
+          "value": [
+            {
+              "items.video": "",
+              "items.name": "اسم المنتج"
+            }
+          ],
           "fields": [
             {
               "id": "items.video",
@@ -848,10 +845,10 @@
               "description": "ارفع الفيديو على أي استضافة وحط الرابط المباشر للملف",
               "labelHTML": null,
               "placeholder": "https://.../video.mp4",
-              "icon": "sicon-video",
+              "icon": "sicon-list-play",
               "value": null,
               "multilanguage": false,
-              "required": true,
+              "required": false,
               "key": "68e77a1f-78f2-4a50-8a70-8d516424973c"
             },
             {
@@ -964,7 +961,7 @@
         "ar": "أرقام المتجر (نسيم)",
         "en": "Store numbers (Naseem)"
       },
-      "icon": "sicon-chart",
+      "icon": "sicon-list",
       "path": "home.n-stats",
       "fields": [
         {
@@ -1037,7 +1034,7 @@
         "ar": "الأسئلة الشائعة (نسيم)",
         "en": "FAQ (Naseem)"
       },
-      "icon": "sicon-help-circle",
+      "icon": "sicon-chat-bubbles",
       "path": "home.n-faq",
       "fields": [
         {
