@@ -3,6 +3,8 @@
     "ar": "نسيم",
     "en": "Naseem"
   },
+  "repository": "https://github.com/iijadagency/naseem",
+  "author_email": "info@iijadagency.com",
   "features": [
     "mega-menu",
     "fonts",
@@ -306,7 +308,7 @@
       "format": "textarea",
       "required": false,
       "value": "",
-      "placeholder": null
+      "placeholder": ""
     },
     {
       "type": "static",
@@ -886,7 +888,7 @@
               "label": "رابط المنتج",
               "description": null,
               "icon": "sicon-link",
-              "value": [],
+              "value": null,
               "required": false,
               "searchable": true,
               "source": "custom",
@@ -1969,6 +1971,7 @@
       ]
     }
   ],
+  "support_url": "https://salla.com/",
   "description": {
     "ar": "ثيم هادئ وفخم بلوجو في المنتصف وحركات ناعمة وأقسام متحركة، يناسب كل أنواع المتاجر",
     "en": "A calm, refined theme with a centered logo, soft motion and moving sections, suited to every kind of store"
