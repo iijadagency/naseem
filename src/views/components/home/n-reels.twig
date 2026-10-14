@@ -1,0 +1,47 @@
+{#
+| Variable                 | Type     | Description                         |
+|--------------------------|----------|-------------------------------------|
+| component.title          | ?string  | عنوان القسم                         |
+| component.subtitle       | ?string  | سطر صغير فوق العنوان                |
+| component.items          | object[] | الفيديوهات                          |
+| component.items[].video  | string   | رابط ملف الفيديو (mp4)              |
+| component.items[].poster | ?string  | صورة الغلاف                         |
+| component.items[].name   | ?string  | اسم المنتج                          |
+| component.items[].url    | ?string  | رابط المنتج                         |
+#}
+{% set t = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
+{% set sub = component.subtitle is iterable ? component.subtitle[language.code]|default(component.subtitle|first) : component.subtitle %}
+{% if component.items|length %}
+<section component-id="{{ componentId }}" class="s-block n-reels-block">
+  <div class="container">
+    {% if t or sub %}
+      <div class="s-block__title">
+        <div class="right-side">
+          {% if sub %}<p class="n-hero__eyebrow">{{ sub }}</p>{% endif %}
+          {% if t %}<h2>{{ t }}</h2>{% endif %}
+        </div>
+      </div>
+    {% endif %}
+    <div class="n-reels">
+      {% for item in component.items %}
+        {% set name = item.name is iterable ? item.name[language.code]|default(item.name|first) : item.name %}
+        {% if item.video %}
+          <div class="n-reel">
+            <div class="n-reel__media">
+              <video src="{{ item.video }}" {% if item.poster %}poster="{{ item.poster }}"{% endif %} muted loop playsinline preload="none"></video>
+              <button type="button" class="n-reel__play" aria-label="{{ theme.is_rtl ? 'تشغيل الفيديو' : 'Play video' }}"><i class="sicon-play"></i></button>
+            </div>
+            {% if name %}
+              {% if item.url %}
+                <a href="{{ item.url }}" class="n-reel__title">{{ name }}</a>
+              {% else %}
+                <span class="n-reel__title">{{ name }}</span>
+              {% endif %}
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}

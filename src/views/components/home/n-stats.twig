@@ -1,0 +1,22 @@
+{#
+| Variable                | Type     | Description            |
+|-------------------------|----------|------------------------|
+| component.items         | object[] | الأرقام                |
+| component.items[].value | string   | الرقم مثل +5000        |
+| component.items[].label | string   | الوصف مثل عميل سعيد    |
+#}
+{% if component.items|length %}
+<section component-id="{{ componentId }}" class="s-block n-stats-block">
+  <div class="container">
+    <div class="n-stats">
+      {% for item in component.items %}
+        {% set label = item.label is iterable ? item.label[language.code]|default(item.label|first) : item.label %}
+        <div>
+          <span class="n-stats__num">{{ item.value }}</span>
+          <span class="n-stats__label">{{ label }}</span>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}

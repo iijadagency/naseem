@@ -1,0 +1,45 @@
+{#
+| Variable                 | Type    | Description                     |
+|--------------------------|---------|---------------------------------|
+| component.image          | string  | صورة البانر للكمبيوتر           |
+| component.mobile_image   | ?string | صورة البانر للجوال              |
+| component.eyebrow        | ?string | سطر صغير فوق العنوان            |
+| component.title          | ?string | العنوان                         |
+| component.description    | ?string | الوصف                           |
+| component.primary_text   | ?string | نص الزر الأساسي                 |
+| component.primary_url    | ?string | رابط الزر الأساسي               |
+| component.secondary_text | ?string | نص الزر الثاني                  |
+| component.secondary_url  | ?string | رابط الزر الثاني                |
+#}
+{% set t = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
+{% set eyebrow = component.eyebrow is iterable ? component.eyebrow[language.code]|default(component.eyebrow|first) : component.eyebrow %}
+{% set desc = component.description is iterable ? component.description[language.code]|default(component.description|first) : component.description %}
+{% set btn1 = component.primary_text is iterable ? component.primary_text[language.code]|default(component.primary_text|first) : component.primary_text %}
+{% set btn2 = component.secondary_text is iterable ? component.secondary_text[language.code]|default(component.secondary_text|first) : component.secondary_text %}
+<section component-id="{{ componentId }}" class="s-block n-hero">
+  <div class="container">
+    <div class="n-hero__box">
+      <div class="n-hero__text">
+        {% if eyebrow %}<span class="n-hero__eyebrow">{{ eyebrow }}</span>{% endif %}
+        {% if t %}
+          <h2 class="n-hero__title">{{ t }}</h2>
+        {% endif %}
+        {% if desc %}<p class="n-hero__desc">{{ desc }}</p>{% endif %}
+        {% if (btn1 and component.primary_url) or (btn2 and component.secondary_url) %}
+          <div class="n-hero__btns">
+            {% if btn1 and component.primary_url %}<a href="{{ component.primary_url }}" class="n-btn n-btn--dark">{{ btn1 }}</a>{% endif %}
+            {% if btn2 and component.secondary_url %}<a href="{{ component.secondary_url }}" class="n-btn n-btn--line">{{ btn2 }}</a>{% endif %}
+          </div>
+        {% endif %}
+      </div>
+      <div class="n-hero__media">
+        <picture>
+          {% if component.mobile_image %}
+            <source media="(max-width: 767px)" srcset="{{ component.mobile_image }}">
+          {% endif %}
+          <img src="{{ component.image ?: 'images/placeholder.png'|asset }}" alt="{{ t ?: store.name }}" {{ position == 0 ? 'fetchpriority=high loading=eager' : 'loading=lazy' }}>
+        </picture>
+      </div>
+    </div>
+  </div>
+</section>

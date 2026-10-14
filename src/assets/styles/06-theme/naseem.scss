@@ -1,0 +1,909 @@
+/* =====================================================================
+ * طبقة ثيم نسيم — كل التخصيصات فوق ثيم رائد في ملف واحد
+ * Naseem theme layer — every visual override on top of Raed lives here
+ * ===================================================================== */
+
+:root {
+  --n-ink: #1c1b19;
+  --n-ink-2: #33302b;
+  --n-ground: #f4f2ee;
+  --n-paper: #ffffff;
+  --n-soft: #e9e5dd;
+  --n-line: #e4e0d8;
+  --n-line-soft: #efece6;
+  --n-muted: #6b665d;
+  --n-gold: #d9c29a;
+  --n-ease: cubic-bezier(.2, .7, .2, 1);
+  --font-heading: var(--font-main);
+}
+
+/* ---------- الأساس ---------- */
+.theme-naseem {
+  background: var(--n-ground);
+  color: var(--n-ink);
+  font-family: var(--font-main), -apple-system, BlinkMacSystemFont, sans-serif;
+
+  h1, h2, h3,
+  .s-block__title h2,
+  .s-slider-block__title h2 {
+    font-family: var(--font-heading), var(--font-main), sans-serif;
+  }
+
+  .s-block__title h2,
+  .s-slider-block__title h2 {
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1.35;
+
+    @screen lg {
+      font-size: 36px;
+    }
+  }
+
+  .btn--primary,
+  salla-button button {
+    transition: opacity .25s ease, transform .25s ease;
+  }
+}
+
+/* ---------- شريط العروض المتحرك ---------- */
+.n-ticker {
+  background: var(--n-ink);
+  color: #ede9e2;
+  font-size: 13px;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 9px 0;
+
+  &__track {
+    display: flex;
+    width: max-content;
+    animation: n-slide 40s linear infinite;
+  }
+
+  &:hover &__track {
+    animation-play-state: paused;
+  }
+
+  &__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 40px;
+    padding-inline-end: 40px;
+
+    &::after {
+      content: "";
+      width: 4px;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--n-gold);
+    }
+  }
+}
+
+@keyframes n-slide {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes n-slide-rtl {
+  from { transform: translateX(0); }
+  to { transform: translateX(50%); }
+}
+
+[dir="rtl"] .n-ticker__track,
+[dir="rtl"] .n-marquee__track {
+  animation-name: n-slide-rtl;
+}
+
+/* ---------- الهيدر: اللوجو في المنتصف ---------- */
+.n-mainnav {
+  min-height: 0 !important;
+
+  .inner {
+    border-bottom: 1px solid var(--n-line);
+  }
+}
+
+.n-header__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  min-height: 64px;
+
+  @screen lg {
+    gap: 24px;
+    padding: 20px 0 14px;
+  }
+}
+
+.n-header__start {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+
+  @screen lg {
+    gap: 10px;
+  }
+}
+
+.n-header__search {
+  min-width: 240px;
+  max-width: 300px;
+  flex: 1;
+}
+
+.n-header__end {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+
+  @screen lg {
+    gap: 16px;
+  }
+}
+
+.n-icon-btn {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: var(--n-ink);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.n-logo {
+  flex-direction: column;
+  justify-self: center;
+  gap: 4px;
+  margin: 0 !important;
+  text-align: center;
+
+  img {
+    max-height: 44px !important;
+    max-width: 140px !important;
+    width: auto;
+    object-fit: contain;
+
+    @screen lg {
+      max-height: 68px !important;
+      max-width: 240px !important;
+    }
+  }
+
+  &__tagline {
+    font-size: 10px;
+    letter-spacing: .2em;
+    color: var(--n-muted);
+    line-height: 1.2;
+
+    @screen lg {
+      font-size: 11px;
+    }
+  }
+}
+
+.n-header__menu {
+  @screen lg {
+    border-top: 1px solid var(--n-line-soft);
+  }
+
+  custom-main-menu {
+    display: block;
+  }
+
+  .main-menu {
+    @screen lg {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      column-gap: 8px;
+    }
+  }
+}
+
+/* الهيدر المثبّت: نصغّر اللوجو ونخفي السطر */
+.main-nav-container.fixed-pinned {
+  .n-logo img {
+    max-height: 40px !important;
+  }
+
+  .n-logo__tagline {
+    display: none;
+  }
+
+  .n-header__row {
+    @screen lg {
+      padding: 10px 0 8px;
+    }
+  }
+}
+
+/* ---------- شريط التنقل السفلي (جوال) ---------- */
+.n-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  background: var(--n-paper);
+  border-top: 1px solid var(--n-line);
+  padding: 4px 4px calc(8px + env(safe-area-inset-bottom));
+
+  &__item {
+    min-height: 52px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    font-size: 11px;
+    color: var(--n-muted);
+    background: transparent;
+    border: 0;
+
+    i {
+      font-size: 20px;
+    }
+
+    &.is-active {
+      color: var(--color-primary);
+      font-weight: 600;
+    }
+  }
+}
+
+.has-bottom-nav {
+  @media (max-width: 1023px) {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom));
+  }
+}
+
+/* ---------- الفوتر: اللوجو في المنتصف ---------- */
+.n-footer {
+  margin-top: 64px;
+
+  .footer-is-dark & {
+    background: var(--n-ink);
+    color: #c9c3b8;
+  }
+
+  .footer-is-light & {
+    background: var(--n-paper);
+    color: var(--n-ink-2);
+  }
+
+  &__brand {
+    text-align: center;
+    padding: 48px 0 32px;
+    border-bottom: 1px solid rgba(201, 195, 184, .15);
+
+    @screen lg {
+      padding: 64px 0 40px;
+    }
+  }
+
+  &__logo {
+    display: inline-flex;
+    justify-content: center;
+
+    img {
+      max-height: 64px;
+      max-width: 200px;
+      object-fit: contain;
+
+      @screen lg {
+        max-height: 80px;
+        max-width: 260px;
+      }
+    }
+  }
+
+  .footer-logo-white &__logo img {
+    filter: brightness(0) invert(1);
+  }
+
+  &__name {
+    font-family: var(--font-heading), var(--font-main), sans-serif;
+    font-size: 34px;
+    font-weight: 500;
+    line-height: 1;
+
+    .footer-is-dark & {
+      color: var(--n-ground);
+    }
+
+    @screen lg {
+      font-size: 46px;
+    }
+  }
+
+  &__about {
+    max-width: 520px;
+    margin: 16px auto 0;
+    font-size: 14px;
+    line-height: 1.8;
+    opacity: .85;
+  }
+
+  &__social {
+    display: block;
+    margin-top: 20px;
+
+    ul {
+      justify-content: center;
+    }
+  }
+
+  .store-footer__inner.n-footer__cols {
+    background: transparent;
+    border: 0;
+    padding: 40px 0;
+
+    @screen lg {
+      padding: 48px 0;
+    }
+  }
+
+  h3 {
+    font-size: 15px;
+    font-weight: 600;
+
+    .footer-is-dark & {
+      color: var(--n-ground);
+    }
+  }
+
+  &__trust {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__bottom {
+    border-top: 1px solid rgba(201, 195, 184, .15);
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding-top: 20px;
+      padding-bottom: 24px;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .footer-is-dark & .copyright-text p {
+      color: #a8a196;
+    }
+  }
+}
+
+/* ---------- الشريط المتحرك (أقسام وماركات) ---------- */
+.n-marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to left, transparent, #000 5%, #000 95%, transparent);
+  mask-image: linear-gradient(to left, transparent, #000 5%, #000 95%, transparent);
+
+  &__track {
+    display: flex;
+    width: max-content;
+    animation: n-slide var(--n-speed, 45s) linear infinite;
+  }
+
+  &:hover &__track,
+  &:focus-within &__track {
+    animation-play-state: paused;
+  }
+
+  &--reverse &__track {
+    animation-direction: reverse;
+  }
+
+  &__item {
+    padding-inline-end: 16px;
+    display: flex;
+
+    @screen lg {
+      padding-inline-end: 28px;
+    }
+  }
+}
+
+.n-cat {
+  width: 92px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+
+  @screen lg {
+    width: 172px;
+  }
+
+  &__img {
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--n-soft);
+    transition: transform .4s var(--n-ease);
+
+    @screen lg {
+      width: 172px;
+      height: 172px;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .n-cats--square & {
+      border-radius: var(--n-radius);
+    }
+  }
+
+  &:hover &__img {
+    transform: scale(1.05);
+  }
+
+  &__name {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.4;
+
+    @screen lg {
+      font-size: 16px;
+    }
+  }
+}
+
+.n-brand {
+  width: 120px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  background: var(--n-paper);
+  border: 1px solid var(--n-line);
+  border-radius: var(--n-radius);
+  opacity: .7;
+  transition: opacity .3s ease;
+
+  @screen lg {
+    width: 180px;
+    height: 80px;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+}
+
+/* ---------- البانر الرئيسي ---------- */
+.n-hero {
+  &__box {
+    display: flex;
+    flex-direction: column-reverse;
+    background: var(--n-paper);
+    border-radius: var(--n-radius);
+    overflow: hidden;
+
+    @screen md {
+      flex-direction: row;
+      min-height: 520px;
+    }
+  }
+
+  &__text {
+    flex: 1 1 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    padding: 28px 20px 32px;
+
+    @screen md {
+      align-items: flex-start;
+      text-align: start;
+      gap: 18px;
+      padding: 56px;
+    }
+  }
+
+  &__eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    color: var(--color-primary);
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 28px;
+    line-height: 1.3;
+    font-weight: 500;
+
+    @screen lg {
+      font-size: 54px;
+      line-height: 1.25;
+    }
+  }
+
+  &__desc {
+    color: #55514a;
+    font-size: 14px;
+    max-width: 440px;
+
+    @screen lg {
+      font-size: 17px;
+    }
+  }
+
+  &__btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 6px;
+    width: 100%;
+    justify-content: center;
+
+    @screen md {
+      width: auto;
+      justify-content: flex-start;
+    }
+  }
+
+  &__media {
+    flex: 1 1 55%;
+    min-height: 340px;
+    background: var(--n-soft);
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+.n-btn {
+  min-height: 48px;
+  padding: 0 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--n-radius);
+  font-weight: 500;
+  font-size: 15px;
+  border: 1px solid var(--n-ink);
+  transition: opacity .25s ease, background-color .25s ease, color .25s ease;
+
+  &--dark {
+    background: var(--n-ink);
+    color: #fff;
+
+    &:hover {
+      opacity: .85;
+    }
+  }
+
+  &--line {
+    background: transparent;
+    color: var(--n-ink);
+
+    &:hover {
+      background: var(--n-ink);
+      color: #fff;
+    }
+  }
+
+  @media (max-width: 767px) {
+    flex: 1;
+  }
+}
+
+/* ---------- فيديوهات قصيرة ---------- */
+.n-reels {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 6px;
+
+  @screen lg {
+    gap: 16px;
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.n-reel {
+  flex: 0 0 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  @screen lg {
+    flex-basis: 220px;
+  }
+
+  &__media {
+    position: relative;
+    aspect-ratio: 9 / 16;
+    border-radius: var(--n-radius);
+    overflow: hidden;
+    background: var(--n-soft);
+
+    video,
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__play {
+    position: absolute;
+    bottom: 12px;
+    inset-inline-start: 12px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .92);
+    color: var(--n-ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    border: 0;
+    transition: opacity .3s ease;
+
+    .is-playing & {
+      opacity: 0;
+    }
+  }
+
+  &__title {
+    font-size: 13px;
+    font-weight: 500;
+
+    @screen lg {
+      font-size: 14px;
+    }
+  }
+}
+
+/* ---------- أرقام المتجر ---------- */
+.n-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px 12px;
+  text-align: center;
+
+  @screen md {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  &__num {
+    display: block;
+    font-family: var(--font-heading), var(--font-main), sans-serif;
+    font-size: 34px;
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--color-primary);
+    font-variant-numeric: tabular-nums;
+
+    @screen lg {
+      font-size: 48px;
+    }
+  }
+
+  &__label {
+    font-size: 14px;
+    color: #55514a;
+  }
+}
+
+/* ---------- الأسئلة الشائعة ---------- */
+.n-faq {
+  max-width: 860px;
+  margin: 0 auto;
+  border-top: 1px solid var(--n-line);
+
+  details {
+    border-bottom: 1px solid var(--n-line);
+  }
+
+  summary {
+    list-style: none;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+
+    @screen lg {
+      font-size: 17px;
+    }
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::after {
+      content: "+";
+      font-size: 22px;
+      font-weight: 300;
+      transition: transform .3s var(--n-ease);
+    }
+
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+
+  details[open] summary::after {
+    transform: rotate(45deg);
+  }
+
+  &__answer {
+    padding: 0 0 20px;
+    color: #55514a;
+    font-size: 14px;
+    line-height: 1.9;
+    animation: n-rise .4s ease both;
+
+    @screen lg {
+      font-size: 15px;
+    }
+  }
+}
+
+/* ---------- بطاقة المنتج ---------- */
+.theme-naseem {
+  .s-product-card-entry {
+    background: transparent;
+    border-radius: var(--n-radius);
+    transition: transform .35s var(--n-ease);
+
+    &:hover {
+      transform: translateY(-6px);
+    }
+  }
+
+  .s-product-card-shadow:hover {
+    box-shadow: none;
+  }
+
+  .s-product-card-image {
+    border-radius: var(--n-radius);
+    overflow: hidden;
+    background: var(--n-soft);
+    transition: box-shadow .35s ease;
+
+    img {
+      transition: transform .6s var(--n-ease);
+    }
+  }
+
+  .s-product-card-entry:hover .s-product-card-image {
+    box-shadow: 0 18px 36px -18px rgba(28, 27, 25, .35);
+
+    img {
+      transform: scale(1.04);
+    }
+  }
+
+  .s-product-card-content-title a {
+    font-weight: 500;
+  }
+
+  .s-product-card-price,
+  .s-product-card-sale-price h4 {
+    font-weight: 600;
+  }
+
+  .s-product-card-promotion-title {
+    background: var(--n-paper);
+    color: var(--n-ink);
+  }
+}
+
+/* ---------- صفحة المنتج ---------- */
+.theme-naseem {
+  .product-single,
+  #product-single {
+    h1 {
+      font-weight: 500;
+    }
+  }
+
+  .s-block--testimonials .s-slider-block__title h2,
+  .s-block--testimonials h2 {
+    font-weight: 500;
+  }
+}
+
+/* ---------- ظهور الأقسام مع التمرير ---------- */
+@keyframes n-rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+
+.n-animate {
+  .n-reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity .8s var(--n-ease), transform .8s var(--n-ease);
+
+    &.is-in {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .n-hero__text > * {
+    animation: n-rise .8s var(--n-ease) both;
+
+    &:nth-child(2) { animation-delay: .1s; }
+    &:nth-child(3) { animation-delay: .2s; }
+    &:nth-child(4) { animation-delay: .3s; }
+  }
+
+  .n-hero__media img {
+    animation: n-settle 1.6s var(--n-ease) both;
+  }
+}
+
+@keyframes n-settle {
+  from { transform: scale(1.06); }
+  to { transform: scale(1); }
+}
+
+/* احترام إعداد تقليل الحركة في الجهاز */
+@media (prefers-reduced-motion: reduce) {
+  .n-ticker__track,
+  .n-marquee__track,
+  .n-animate .n-hero__text > *,
+  .n-animate .n-hero__media img {
+    animation: none !important;
+  }
+
+  .n-animate .n-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .n-marquee {
+    overflow-x: auto;
+  }
+}

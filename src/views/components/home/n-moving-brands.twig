@@ -1,0 +1,37 @@
+{#
+| Variable           | Type    | Description                      |
+|--------------------|---------|----------------------------------|
+| component.title    | ?string | عنوان القسم                      |
+| component.brands   | Brand[] | الماركات المختارة                |
+| component.duration | ?int    | مدة اللفة الكاملة بالثواني        |
+#}
+{% set t = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
+{% set brands = component.brands %}
+{% set reps = brands|length < 8 ? 4 : 2 %}
+{% if brands|length %}
+<section component-id="{{ componentId }}" class="s-block n-brands">
+  {% if t %}
+    <div class="container">
+      <div class="s-block__title">
+        <div class="right-side"><h2>{{ t }}</h2></div>
+        {% if theme.settings.get('is_more_button_enabled') %}
+          <a href="{{ link('brands') }}" class="s-block__display-all">{{ trans('blocks.home.display_all') }} <i class="sicon-arrow-left"></i></a>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+  <div class="n-marquee n-marquee--reverse" style="--n-speed: {{ component.duration ?: 35 }}s">
+    <div class="n-marquee__track">
+      {% for i in 1..reps %}
+        {% for brand in brands %}
+          <div class="n-marquee__item" {{ i > 1 ? 'aria-hidden=true' : '' }}>
+            <a href="{{ brand.url }}" class="n-brand" {{ i > 1 ? 'tabindex=-1' : '' }}>
+              <img src="{{ brand.logo }}" alt="{{ brand.name }}" loading="lazy">
+            </a>
+          </div>
+        {% endfor %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
